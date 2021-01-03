@@ -1,6 +1,6 @@
 ## Description
 
-An app for restaurants made by(Nest.js, TypeORM etc.)
+Yum backend made with `Nest.js`, `TypeORM` etc.
 
 ## Installation
 
