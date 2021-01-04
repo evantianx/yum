@@ -48,6 +48,10 @@ TYPEORM_LOGGING = true
 TYPEORM_ENTITIES = **/entities/*.entity.js
 ```
 
+## Reference
+
+- [typeorm-naming-strategies](https://github.com/tonivj5/typeorm-naming-strategies#readme)
+
 ## License
 
 This project is [MIT licensed](LICENSE).
