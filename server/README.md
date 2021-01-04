@@ -45,6 +45,7 @@ TYPEORM_PASSWORD = 123456
 TYPEORM_DATABASE = yum
 TYPEORM_SYNCHRONIZE = true
 TYPEORM_LOGGING = true
+TYPEORM_ENTITIES = **/entities/*.entity.js
 ```
 
 ## License
