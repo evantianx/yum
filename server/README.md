@@ -52,6 +52,8 @@ TYPEORM_ENTITIES = **/entities/*.entity.js
 
 ### As you build out features like CRUD it's often useful to construct variants on a base entity type, so how to do it in Nest.js?
 
+> [Mapped types](https://docs.nestjs.com/graphql/mapped-types)
+
 This is how the original entity file looks like:
 
 ```js
@@ -63,10 +65,17 @@ export class Restaurant {
 }
 ```
 
-- Use [Mapped types](https://docs.nestjs.com/graphql/mapped-types):
+- Use the third parameter
 
   ```js
   // createRestaurant.dto.ts
+
+  /*
+    here because the child class type(CreateRestaurantDto => ArgsType) is
+    different with the parent class type(Restaurant => ObjectType).
+    By default, the generated class will inherit parant class type. So we need to pass
+    the third parameter to make sure the child class type is still what we want.
+  */
   @ArgsType()
   export class CreateRestaurantDto extends OmitType(
     Restaurant,
@@ -75,12 +84,13 @@ export class Restaurant {
   ) {}
   ```
 
-- Use `isAbstract: true`
+- Or use `isAbstract: true`
 
   ```js
   /*
     notice here! we tell nestjs that we only want this class
-    can also be extends as a ArgsType
+    can also be extends as a ArgsType, so we don't need to pass 
+    the third parameter
   */
   @ArgsType({ isAbstract: true })
   @ObjectType()
