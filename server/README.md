@@ -102,6 +102,21 @@ export class Restaurant {
 
   > The `isAbstract: true` property indicates that SDL (Schema Definition Language statements) shouldn't be generated for this class. Note, you can set this property for other types as well to suppress SDL generation.
 
+### `defaultValue` vs `nullable`
+
+```js
+// inside one entity
+
+@Field(() => Boolean, { defaultValue: true })  // for graphql schema
+@Column({ default: true })                     // for database
+@IsBoolean()
+@IsOptional()                                  // for validation
+isVegan: boolean;
+```
+
+`defaultValue` means it can be omit but has a defaultValue
+`nullable` means it can be omit
+
 ## Reference
 
 - [typeorm-naming-strategies](https://github.com/tonivj5/typeorm-naming-strategies#readme)
