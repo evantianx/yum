@@ -13,5 +13,25 @@ export class UsersResolver {
   }
 
   @Mutation(() => CreateUserOutputDto)
-  createAccount(@Args() createUserInputDto: CreateUserInputDto) {}
+  async createUser(
+    @Args() createUserInputDto: CreateUserInputDto,
+  ): Promise<CreateUserOutputDto> {
+    try {
+      const error = await this.usersService.createUser(createUserInputDto);
+      if (error) {
+        return {
+          ok: false,
+          error,
+        };
+      }
+      return {
+        ok: true,
+      };
+    } catch (error) {
+      return {
+        ok: false,
+        error,
+      };
+    }
+  }
 }
