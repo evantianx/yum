@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { ResponseDto } from '../base/dtos/response.dto';
 import { CreateUserInputDto } from './dtos/createUser.dto';
 import { User } from './entities/user.entity';
 
@@ -14,17 +15,18 @@ export class UsersService {
     email,
     password,
     role,
-  }: CreateUserInputDto): Promise<string | undefined> {
+  }: CreateUserInputDto): Promise<ResponseDto> {
     try {
       const exists = await this.users.findOne({ email });
 
       if (exists) {
-        return 'Email already exists!';
+        return { ok: false, error: 'Email already exists!' };
       }
 
       await this.users.save(this.users.create({ email, password, role }));
+      return { ok: true };
     } catch (e) {
-      return "Couldn't create user!";
+      return { ok: false, error: "Couldn't create user!" };
     }
   }
 }
