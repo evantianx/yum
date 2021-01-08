@@ -1,5 +1,7 @@
+import { InternalServerErrorException } from '@nestjs/common';
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
-import { Column, Entity } from 'typeorm';
+import * as argon2 from 'argon2';
+import { BeforeInsert, Column, Entity } from 'typeorm';
 import { BaseEntity } from '../../base/entities/base.entity';
 
 enum UserRole {
@@ -27,4 +29,16 @@ export class User extends BaseEntity {
   })
   @Field(() => UserRole)
   role: UserRole;
+
+  @BeforeInsert()
+  async hashPassword(): Promise<void> {
+    try {
+      this.password = await argon2.hash(this.password, {
+        hashLength: 10,
+      });
+    } catch (e) {
+      console.log(e);
+      throw new InternalServerErrorException();
+    }
+  }
 }
