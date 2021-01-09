@@ -8,6 +8,7 @@ export const validationSchema = Joi.object({
   TYPEORM_USERNAME: Joi.string().required(),
   TYPEORM_PASSWORD: Joi.string().required(),
   TYPEORM_DATABASE: Joi.string().required(),
-  TYPEORM_SYNCHRONIZE: Joi.boolean().required(),
-  TYPEORM_LOGGING: Joi.boolean().required(),
+  TYPEORM_SYNCHRONIZE: Joi.boolean(),
+  TYPEORM_LOGGING: Joi.boolean(),
+  JWT_TOKEN_SECRET: Joi.string().required(),
 });
