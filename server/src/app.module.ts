@@ -4,6 +4,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { BaseModule } from './base/base.module';
 import { validationSchema } from './config/envValidationSchema';
+import { JwtModule } from './jwt/jwt.module';
 import { RestaurantsModule } from './restaurants/restaurants.module';
 import { UsersModule } from './users/users.module';
 
@@ -19,6 +20,7 @@ import { UsersModule } from './users/users.module';
       autoSchemaFile: true,
     }),
     TypeOrmModule.forRoot(),
+    JwtModule.forRoot(),
     RestaurantsModule,
     UsersModule,
     BaseModule,
