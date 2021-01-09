@@ -20,7 +20,9 @@ import { UsersModule } from './users/users.module';
       autoSchemaFile: true,
     }),
     TypeOrmModule.forRoot(),
-    JwtModule.forRoot(),
+    JwtModule.forRoot({
+      privateKey: process.env.JWT_TOKEN_SECRET,
+    }),
     RestaurantsModule,
     UsersModule,
     BaseModule,
