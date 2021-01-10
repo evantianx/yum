@@ -117,6 +117,31 @@ isVegan: boolean;
 `defaultValue` means it can be omit but has a defaultValue
 `nullable` means it can be omit
 
+### Middleware
+
+- Global middleware
+
+  use `use()` method at `INestApplication` instance:
+
+  ```js
+  // main.ts
+  app.use(JwtMiddleware);
+  ```
+
+- Local middleware
+
+  ```ts
+  // app.module.ts
+  export class AppModule implements NestModule {
+    configure(consumer: MiddlewareConsumer) {
+      consumer.apply(JwtMiddleware).forRoutes({
+        path: '/graphql',
+        method: RequestMethod.POST,
+      });
+    }
+  }
+  ```
+
 ## Reference
 
 - [typeorm-naming-strategies](https://github.com/tonivj5/typeorm-naming-strategies#readme)
