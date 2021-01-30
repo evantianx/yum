@@ -1,4 +1,5 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { GraphQLContext } from '../base/context.interface';
 import { BaseResponseDto } from '../base/dtos/baseResponse.dto';
 import { LoginRequestDto, LoginResponseDto } from './dtos/logiin.dto';
 import { RegisterRequestDto, RegisterResponseDto } from './dtos/register.dto';
@@ -40,5 +41,10 @@ export class UsersResolver {
         error,
       };
     }
+  }
+
+  @Query(() => User)
+  me(@Context() { user }: GraphQLContext): User {
+    return user;
   }
 }

@@ -24,6 +24,7 @@ import { UsersModule } from './users/users.module';
     }),
     GraphQLModule.forRoot({
       autoSchemaFile: true,
+      context: ({ req }) => ({ user: req['user'] }),
     }),
     TypeOrmModule.forRoot(),
     JwtModule.forRoot({
