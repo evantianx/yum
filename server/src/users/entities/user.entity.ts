@@ -1,9 +1,11 @@
-import { InternalServerErrorException } from '@nestjs/common';
+import { Inject } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
 import * as argon2 from 'argon2';
 import { IsEmail, IsEnum } from 'class-validator';
 import { BeforeInsert, Column, Entity } from 'typeorm';
 import { BaseEntity } from '../../base/entities/base.entity';
+import { JwtService } from '../../jwt/jwt.service';
 
 enum UserRole {
   Client,
@@ -16,6 +18,14 @@ registerEnumType(UserRole, { name: 'UserRole' });
 @ObjectType()
 @Entity()
 export class User extends BaseEntity {
+  constructor(
+    @Inject()
+    private readonly jwt: JwtService,
+    private readonly config: ConfigService,
+  ) {
+    super();
+  }
+
   @Column({ unique: true })
   @Field(() => String)
   @IsEmail()
@@ -33,24 +43,19 @@ export class User extends BaseEntity {
   @IsEnum(UserRole)
   role: UserRole;
 
-  @BeforeInsert()
-  async hashPassword(): Promise<void> {
-    try {
-      this.password = await argon2.hash(this.password, {
-        hashLength: 10,
-      });
-    } catch (e) {
-      console.log(e);
-      throw new InternalServerErrorException();
-    }
+  private get token() {
+    const { id } = this;
+    return this.jwt.sign(id);
   }
 
-  async checkPassword(passwordFromUserInput: string): Promise<boolean> {
-    try {
-      return await argon2.verify(this.password, passwordFromUserInput);
-    } catch (e) {
-      console.log(e);
-      throw new InternalServerErrorException();
-    }
+  @BeforeInsert()
+  async hashPassword(): Promise<void> {
+    this.password = await argon2.hash(this.password, {
+      hashLength: 10,
+    });
+  }
+
+  checkPassword(passwordFromUserInput: string): Promise<boolean> {
+    return argon2.verify(this.password, passwordFromUserInput);
   }
 }

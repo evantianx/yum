@@ -123,9 +123,15 @@ isVegan: boolean;
 
   use `use()` method at `INestApplication` instance:
 
-  ```js
+  ```ts
   // main.ts
-  app.use(JwtMiddleware);
+  async function bootstrap() {
+    const app = await NestFactory.create(AppModule);
+    app.useGlobalPipes(new ValidationPipe());
+    app.use(new JwtMiddleware());
+    await app.listen(3000);
+  }
+  bootstrap();
   ```
 
 - Local middleware
@@ -141,6 +147,11 @@ isVegan: boolean;
     }
   }
   ```
+
+About class middleware and function middleware:
+
+- if you need dependecy injection, then you can only use class type middleware
+- if you want register at global scope, then you can only use function type middleware
 
 ## Reference
 
