@@ -6,6 +6,7 @@ import { GraphQLContext } from '../base/context.interface';
 import { BaseResponseDto } from '../base/dtos/baseResponse.dto';
 import { LoginRequestDto, LoginResponseDto } from './dtos/logiin.dto';
 import { RegisterRequestDto, RegisterResponseDto } from './dtos/register.dto';
+import { UserProfileInput } from './dtos/userProfile.dto';
 import { User } from './entities/user.entity';
 import { UsersService } from './users.service';
 
@@ -50,5 +51,11 @@ export class UsersResolver {
   @UseGuards(AuthGuard)
   me(@AuthUser() authUser: User): User {
     return authUser;
+  }
+
+  @Query(() => User)
+  @UseGuards(AuthGuard)
+  userProfile(@Args() { id }: UserProfileInput) {
+    return this.usersService.findById(id);
   }
 }
