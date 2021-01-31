@@ -36,17 +36,7 @@ $ yarn test:cov
 
 ## ENV file demo
 
-```bash
-TYPEORM_CONNECTION = postgres
-TYPEORM_HOST = localhost
-TYPEORM_PORT = 5432
-TYPEORM_USERNAME = postgres
-TYPEORM_PASSWORD = 123456
-TYPEORM_DATABASE = yum
-TYPEORM_SYNCHRONIZE = true
-TYPEORM_LOGGING = true
-TYPEORM_ENTITIES = **/entities/*.entity.js
-```
+check [env schema file](https://github.com/evantianx/yum/blob/master/server/src/config/envValidationSchema.ts#L3~L15)
 
 ## QA
 
