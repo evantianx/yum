@@ -55,7 +55,7 @@ export class UsersResolver {
 
   @Query(() => User)
   @UseGuards(AuthGuard)
-  userProfile(@Args() { id }: UserProfileInput) {
+  userProfile(@Args() { id }: UserProfileInput): Promise<User> {
     return this.usersService.findById(id);
   }
 }
