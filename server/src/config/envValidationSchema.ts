@@ -11,4 +11,5 @@ export const validationSchema = Joi.object({
   TYPEORM_LOGGING: Joi.boolean(),
   TYPEORM_DROPSCHEMA: Joi.boolean(),
   JWT_TOKEN_SECRET: Joi.string().required(),
+  PORT: Joi.number().required(),
 });
