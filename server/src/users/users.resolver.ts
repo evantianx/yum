@@ -63,9 +63,9 @@ export class UsersResolver {
   @Mutation(() => User)
   @UseGuards(AuthGuard)
   async editUser(
-    @AuthUser() { id }: User,
+    @AuthUser() user: User,
     @Args() editRequestDto: EditRequestDto,
   ): Promise<User> {
-    return this.usersService.editUser(id, editRequestDto);
+    return this.usersService.editUser(user, editRequestDto);
   }
 }

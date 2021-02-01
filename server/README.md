@@ -143,6 +143,10 @@ About class middleware and function middleware:
 - if you need dependecy injection, then you can only use class type middleware
 - if you want register at global scope, then you can only use function type middleware
 
+
+### TypeORM repo's `update` & `save` methods
+
+`update` won't trigger `beforeUpdate` event hook. So we should use `save` method if we need to do some tricks before database update.
 ## Reference
 
 - [typeorm-naming-strategies](https://github.com/tonivj5/typeorm-naming-strategies#readme)
