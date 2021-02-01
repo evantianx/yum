@@ -4,7 +4,8 @@ import { AuthGuard } from '../auth/auth.guard';
 import { AuthUser } from '../auth/authUser.decorator';
 import { GraphQLContext } from '../base/context.interface';
 import { BaseResponseDto } from '../base/dtos/baseResponse.dto';
-import { LoginRequestDto, LoginResponseDto } from './dtos/logiin.dto';
+import { EditRequestDto } from './dtos/edit.dto';
+import { LoginRequestDto, LoginResponseDto } from './dtos/login.dto';
 import { RegisterRequestDto, RegisterResponseDto } from './dtos/register.dto';
 import { UserProfileInput } from './dtos/userProfile.dto';
 import { User } from './entities/user.entity';
@@ -57,5 +58,14 @@ export class UsersResolver {
   @UseGuards(AuthGuard)
   userProfile(@Args() { id }: UserProfileInput): Promise<User> {
     return this.usersService.findById(id);
+  }
+
+  @Mutation(() => User)
+  @UseGuards(AuthGuard)
+  async editUser(
+    @AuthUser() { id }: User,
+    @Args() editRequestDto: EditRequestDto,
+  ): Promise<User> {
+    return this.usersService.editUser(id, editRequestDto);
   }
 }

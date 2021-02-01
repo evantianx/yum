@@ -2,7 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { JwtService } from '../jwt/jwt.service';
-import { LoginRequestDto, LoginResponseDto } from './dtos/logiin.dto';
+import { EditRequestDto } from './dtos/edit.dto';
+import { LoginRequestDto, LoginResponseDto } from './dtos/login.dto';
 import { RegisterRequestDto, RegisterResponseDto } from './dtos/register.dto';
 import { User } from './entities/user.entity';
 
@@ -62,5 +63,10 @@ export class UsersService {
     if (!user)
       throw new NotFoundException(`User with id ${id} doesn't exists `);
     return user;
+  }
+
+  async editUser(id: number, { email, password }: EditRequestDto) {
+    await this.users.update(id, { email, password });
+    return this.users.findOne(id);
   }
 }
