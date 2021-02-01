@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
 import * as argon2 from 'argon2';
 import { IsEmail, IsEnum } from 'class-validator';
-import { BeforeInsert, Column, Entity } from 'typeorm';
+import { BeforeInsert, BeforeUpdate, Column, Entity } from 'typeorm';
 import { BaseEntity } from '../../base/entities/base.entity';
 import { JwtService } from '../../jwt/jwt.service';
 
@@ -49,6 +49,7 @@ export class User extends BaseEntity {
   }
 
   @BeforeInsert()
+  @BeforeUpdate()
   async hashPassword(): Promise<void> {
     this.password = await argon2.hash(this.password, {
       hashLength: 10,
