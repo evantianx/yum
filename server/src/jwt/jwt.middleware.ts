@@ -34,7 +34,7 @@ export class JwtMiddleware implements NestMiddleware {
     try {
       const { id }: any = this.jwt.verify(token);
       if (id) {
-        req['user'] = this.usersService.findById(id);
+        req['user'] = await this.usersService.findById(id);
       }
     } catch (err) {
       const message = `Token error: ${err.message || err.name}`;

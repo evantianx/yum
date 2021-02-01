@@ -7,7 +7,7 @@ import { BaseResponseDto } from '../base/dtos/baseResponse.dto';
 import { EditRequestDto } from './dtos/edit.dto';
 import { LoginRequestDto, LoginResponseDto } from './dtos/login.dto';
 import { RegisterRequestDto, RegisterResponseDto } from './dtos/register.dto';
-import { UserProfileInput } from './dtos/userProfile.dto';
+import { UserProfileRequestDto } from './dtos/userProfile.dto';
 import { User } from './entities/user.entity';
 import { UsersService } from './users.service';
 
@@ -56,7 +56,7 @@ export class UsersResolver {
 
   @Query(() => User)
   @UseGuards(AuthGuard)
-  userProfile(@Args() { id }: UserProfileInput): Promise<User> {
+  userProfile(@Args() { id }: UserProfileRequestDto): Promise<User> {
     return this.usersService.findById(id);
   }
 

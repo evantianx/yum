@@ -65,8 +65,9 @@ export class UsersService {
     return user;
   }
 
-  async editUser(id: number, { email, password }: EditRequestDto) {
-    await this.users.update(id, { email, password });
+  async editUser(id: number, editRequestDto: EditRequestDto) {
+    console.log(id);
+    await this.users.update(id, editRequestDto);
     return this.users.findOne(id);
   }
 }
