@@ -47,11 +47,6 @@ export class User extends BaseEntity {
   @Field()
   verified: boolean;
 
-  private get token() {
-    const { id } = this;
-    return this.jwt.sign(id);
-  }
-
   @BeforeInsert()
   @BeforeUpdate()
   async hashPassword(): Promise<void> {

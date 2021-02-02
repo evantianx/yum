@@ -6,11 +6,14 @@ import { EditRequestDto } from './dtos/edit.dto';
 import { LoginRequestDto, LoginResponseDto } from './dtos/login.dto';
 import { RegisterRequestDto, RegisterResponseDto } from './dtos/register.dto';
 import { User } from './entities/user.entity';
+import { Verification } from './entities/verification.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private readonly users: Repository<User>,
+    @InjectRepository(Verification)
+    private readonly verifications: Repository<Verification>,
     private readonly jwt: JwtService,
   ) {}
 
@@ -26,7 +29,11 @@ export class UsersService {
         return { ok: false, error: 'Email already exists!' };
       }
 
-      await this.users.save(this.users.create({ email, password, role }));
+      const user = await this.users.save(
+        this.users.create({ email, password, role }),
+      );
+      const verification = this.verifications.create({ user });
+      await this.verifications.save(verification);
       return { ok: true };
     } catch (e) {
       console.log(e);
@@ -69,7 +76,11 @@ export class UsersService {
     user: User,
     { email, password }: EditRequestDto,
   ): Promise<User> {
-    if (email) user.email = email;
+    if (email) {
+      user.email = email;
+      const verification = this.verifications.create({ user });
+      await this.verifications.save(verification);
+    }
     if (password) user.password = password;
     return this.users.save(user);
   }
