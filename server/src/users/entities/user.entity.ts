@@ -43,6 +43,10 @@ export class User extends BaseEntity {
   @IsEnum(UserRole)
   role: UserRole;
 
+  @Column({ default: false })
+  @Field()
+  verified: boolean;
+
   private get token() {
     const { id } = this;
     return this.jwt.sign(id);
@@ -56,7 +60,7 @@ export class User extends BaseEntity {
     });
   }
 
-  checkPassword(passwordFromUserInput: string): Promise<boolean> {
-    return argon2.verify(this.password, passwordFromUserInput);
+  checkPassword(attempt: string): Promise<boolean> {
+    return argon2.verify(this.password, attempt);
   }
 }
